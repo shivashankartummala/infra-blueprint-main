@@ -33,7 +33,11 @@ variable "bucket_names" {
   type        = list(string)
   default = [
     "prod-app-ingest-example",
-    "prod-app-artifacts-example"
+    "prod-app-artifacts-example",
+    "prod-app-logs-example",
+    "prod-app-backups-example",
+    "prod-app-archive-example",
+    "prod-app-exports-example"
   ]
 }
 
@@ -41,6 +45,34 @@ variable "transition_to_ia_after_days" {
   description = "Lifecycle transition window to STANDARD_IA."
   type        = number
   default     = 30
+}
+
+variable "bucket_specific_tags" {
+  description = "Optional per-bucket tags. Logs and backups are marked as protected by default."
+  type        = map(map(string))
+  default = {
+    "prod-app-logs-example" = {
+      DataClass    = "logs"
+      Retention    = "keep"
+      Protected    = "true"
+      DeletePolicy = "retain"
+    }
+    "prod-app-backups-example" = {
+      DataClass    = "backups"
+      Retention    = "keep"
+      Protected    = "true"
+      DeletePolicy = "retain"
+    }
+  }
+}
+
+variable "protected_bucket_names" {
+  description = "Bucket names that Terraform must not destroy."
+  type        = set(string)
+  default = [
+    "prod-app-logs-example",
+    "prod-app-backups-example"
+  ]
 }
 
 variable "cluster_name" {

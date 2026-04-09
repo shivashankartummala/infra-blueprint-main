@@ -9,13 +9,14 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "replace-me-terraform-state"
+    bucket         = "shivashankartummala-terraform-state"
     key            = "infra-blueprint-main/terraform.tfstate"
     region         = "us-east-1"
     profile        = "cloud_user"
-    dynamodb_table = "replace-me-terraform-locks"
+    dynamodb_table = "shivashankartummala-terraform-locks"
     encrypt        = true
   }
+
 }
 
 provider "aws" {
@@ -43,10 +44,12 @@ module "vpc" {
 }
 
 module "s3" {
-  source = "git::https://github.com/shivashankartummala/terraform-aws-s3.git?ref=v1.0.0"
+  source = "git::https://github.com/shivashankartummala/terraform-aws-s3.git?ref=v1.1.0"
 
   bucket_names                = var.bucket_names
   transition_to_ia_after_days = var.transition_to_ia_after_days
+  bucket_specific_tags        = var.bucket_specific_tags
+  protected_bucket_names      = var.protected_bucket_names
   tags                        = local.common_tags
 }
 
