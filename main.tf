@@ -44,7 +44,7 @@ module "vpc" {
 }
 
 module "s3" {
-  source = "git::https://github.com/shivashankartummala/terraform-aws-s3.git?ref=v1.1.0"
+  source = "git::https://github.com/shivashankartummala/terraform-aws-s3.git?ref=v1.1.1"
 
   bucket_names                = var.bucket_names
   transition_to_ia_after_days = var.transition_to_ia_after_days
